@@ -3,33 +3,28 @@ using System.Collections.Generic;
 
 public class Comment
 {
-    // Properties to store the name and text of the comment
-    public string Name { get; set; }
-    public string Text { get; set; }
+    public string CommenterName { get; set; }
+    public string CommentText { get; set; }
 
-    // Constructor to initialize the comment
-    public Comment(string name, string text)
+    public Comment(string commenterName, string commentText)
     {
-        Name = name;
-        Text = text;
+        CommenterName = commenterName;
+        CommentText = commentText;
     }
 
-    // Method to return a string representation of the comment
     public override string ToString()
     {
-        return $"{Name}: {Text}";
+        return $"Comment by {CommenterName}: {CommentText}";
     }
 }
 
 public class Video
 {
-    // Properties to store video information
     public string Title { get; set; }
     public string Author { get; set; }
-    public int Length { get; set; } // Length in seconds
+    public int Length { get; set; } 
     public List<Comment> Comments { get; set; }
 
-    // Constructor to initialize the video
     public Video(string title, string author, int length)
     {
         Title = title;
@@ -38,60 +33,56 @@ public class Video
         Comments = new List<Comment>();
     }
 
-    // Method to add a comment to the video
-    public void AddComment(Comment comment)
+    public void AddComment(string commenterName, string commentText)
     {
-        Comments.Add(comment);
+        var newComment = new Comment(commenterName, commentText);
+        Comments.Add(newComment);
     }
 
-    // Method to get the number of comments for the video
     public int GetNumberOfComments()
     {
         return Comments.Count;
+    }
+
+    public void DisplayVideoInfo()
+    {
+        Console.WriteLine($"Title: {Title}");
+        Console.WriteLine($"Author: {Author}");
+        Console.WriteLine($"Length: {Length} seconds");
+        Console.WriteLine($"Number of comments: {GetNumberOfComments()}");
+        Console.WriteLine("Comments:");
+        foreach (var comment in Comments)
+        {
+            Console.WriteLine(comment);
+        }
+        Console.WriteLine(new string('-', 40));
     }
 }
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
-        // Create video instances
-        Video video1 = new Video("Python Tutorial for Beginners", "John Doe", 120);
-        Video video2 = new Video("Advanced Python Programming", "Jane Smith", 150);
-        Video video3 = new Video("Understanding Object-Oriented Programming", "Mike Brown", 200);
-        
-        // Add comments to video1
-        video1.AddComment(new Comment("Alice", "Great video! Very helpful for beginners."));
-        video1.AddComment(new Comment("Bob", "I learned so much, thanks!"));
-        video1.AddComment(new Comment("Charlie", "Nice explanations!"));
-        
-        // Add comments to video2
-        video2.AddComment(new Comment("Eve", "The concepts here are advanced but interesting."));
-        video2.AddComment(new Comment("David", "Amazing content!"));
-        
-        // Add comments to video3
-        video3.AddComment(new Comment("Grace", "This really helped me understand OOP better."));
-        video3.AddComment(new Comment("Hank", "Good video but could use more examples."));
-        video3.AddComment(new Comment("Ivy", "Excellent breakdown of classes and objects."));
-        video3.AddComment(new Comment("Jack", "Great depth into OOP, very informative."));
-        
-        // Put all videos into a list
+        Video video1 = new Video("How to Make a Website", "John Doe", 300);
+        video1.AddComment("Alice", "Great tutorial, thanks!");
+        video1.AddComment("Bob", "I learned a lot, but I wish you explained CSS more.");
+        video1.AddComment("Charlie", "This was awesome!");
+
+        Video video2 = new Video("Learn Python in 10 Minutes", "Jane Smith", 600);
+        video2.AddComment("David", "This was super helpful!");
+        video2.AddComment("Eve", "I had trouble with the third step.");
+        video2.AddComment("Frank", "Fantastic! I now feel confident about Python.");
+        video2.AddComment("Grace", "Could you please explain the last section more?");
+
+        Video video3 = new Video("Top 10 JavaScript Tips", "Mike Brown", 400);
+        video3.AddComment("Hannah", "Great tips, thanks for the insights!");
+        video3.AddComment("Ivy", "This was really helpful for my project.");
+
         List<Video> videos = new List<Video> { video1, video2, video3 };
-        
-        // Iterate through each video and display its details and comments
+
         foreach (var video in videos)
         {
-            Console.WriteLine($"Video Title: {video.Title}");
-            Console.WriteLine($"Author: {video.Author}");
-            Console.WriteLine($"Length: {video.Length} seconds");
-            Console.WriteLine($"Number of Comments: {video.GetNumberOfComments()}");
-
-            // Display all comments for the video
-            foreach (var comment in video.Comments)
-            {
-                Console.WriteLine($"  {comment}");
-            }
-            Console.WriteLine("\n" + new string('-', 40) + "\n");  // Separator between video entries
+            video.DisplayVideoInfo();
         }
     }
 }
